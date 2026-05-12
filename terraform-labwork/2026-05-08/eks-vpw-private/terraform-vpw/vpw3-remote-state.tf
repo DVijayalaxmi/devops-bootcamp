@@ -21,9 +21,9 @@ output "vpc_id" {
 # --------------------------------------------------------------------
 # Output the list of private subnets from the VPC
 # --------------------------------------------------------------------
-# output "private_subnet_id" {
-#   value = data.terraform_remote_state.vpc.outputs.private_subnet_id
-# }
+output "private_subnet_id" {
+  value = data.terraform_remote_state.vpc.outputs.private_subnet_id
+}
 
 
 # --------------------------------------------------------------------

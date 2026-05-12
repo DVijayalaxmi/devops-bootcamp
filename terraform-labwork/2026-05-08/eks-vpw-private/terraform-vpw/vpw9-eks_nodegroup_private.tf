@@ -1,17 +1,17 @@
 # EKS Managed Node Group - Private Subnets
-resource "aws_eks_node_group" "vpw_nodes" {
+resource "aws_eks_node_group" "private_nodes" {
 
   # The name of the EKS cluster this node group belongs to
   cluster_name = aws_eks_cluster.main.name
 
   # Logical name for this node group in the EKS cluster
-  node_group_name = "${local.name}-public-ng"
+  node_group_name = "${local.name}-private-ng"
 
   # IAM role that EC2 worker nodes will assume
   node_role_arn = aws_iam_role.eks_nodegroup_role.arn
 
   # Subnets where the worker nodes will be launched (typically private subnets)
-  subnet_ids = [data.terraform_remote_state.vpc.outputs.public_subnet_id, aws_subnet.public-vpw-eks.id]
+  subnet_ids = [data.terraform_remote_state.vpc.outputs.private_subnet_id]
 
   # Instance types for the nodes (e.g., t3.medium, m5.large)
   instance_types = var.node_instance_types

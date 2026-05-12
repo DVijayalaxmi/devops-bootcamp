@@ -17,12 +17,12 @@ data "aws_internet_gateway" "igw-vpw" {
 }
 
 # Fetch existing NAT Gateway
-# data "aws_nat_gateway" "nat-vpw" {
-#   filter {
-#     name   = "tag:Name"
-#     values = ["dev-nat-vpw"]
-#   }
-# }
+data "aws_nat_gateway" "nat-vpw" {
+  filter {
+    name   = "tag:Name"
+    values = ["dev-nat-vpw"]
+  }
+}
 
 # --------------------------------------------------------------------
 # Local values used throughout the EKS configuration

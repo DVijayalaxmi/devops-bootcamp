@@ -8,10 +8,10 @@ output "public_subnet_id" {
   description = "List of public subnet IDs"
 }
 
-output "private_subnet_id" {
-  value       = aws_subnet.private-vpw.id
-  description = "List of private subnet IDs"
-}
+# output "private_subnet_id" {
+#   value       = aws_subnet.private-vpw.id
+#   description = "List of private subnet IDs"
+# }
 
 # output "public_rt_id" {
 #   value       = aws_route_table.public_rt-vpw.id

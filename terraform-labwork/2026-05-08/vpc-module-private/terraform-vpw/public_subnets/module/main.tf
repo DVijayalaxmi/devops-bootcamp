@@ -11,14 +11,14 @@ resource "aws_subnet" "main-public-vpw" {
 }
 
 # Resource-2: Private Subnets
-# resource "aws_subnet" "private-vpw" {
-#   vpc_id            = data.aws_vpc.vpc-vpw.id
-#   cidr_block        = local.private_subnet_cidr
-#   availability_zone = var.aws_availability_zone
-#   tags = merge(var.tags, {
-#     Name = "vijayalaxmipw-11-priv-subnet"
-#   })
-# }
+resource "aws_subnet" "private-vpw" {
+  vpc_id            = data.aws_vpc.vpc-vpw.id
+  cidr_block        = local.private_subnet_cidr
+  availability_zone = var.aws_availability_zone
+  tags = merge(var.tags, {
+    Name = "vijayalaxmipw-11-priv-subnet"
+  })
+}
 
 # Resource-3: Public Route Table
 # resource "aws_route_table" "public_rt-vpw" {
@@ -47,17 +47,17 @@ resource "aws_nat_gateway" "nat-vpw" {
 }
 
 # Resource-5: Private Route Table
-# resource "aws_route_table" "private_rt-vpw" {
-#   vpc_id = data.aws_vpc.vpc-vpw.id
-#   route {
-#     cidr_block     = "0.0.0.0/0"
-#     nat_gateway_id = aws_nat_gateway.nat-vpw.id
-#   }
-#   tags = merge(var.tags, { Name = "vpw-private-rt" })
-# }
+resource "aws_route_table" "private_rt-vpw" {
+  vpc_id = data.aws_vpc.vpc-vpw.id
+  route {
+    cidr_block     = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat-vpw.id
+  }
+  tags = merge(var.tags, { Name = "vpw-private-rt" })
+}
 
 # Resource-6: Private Route Table Association to Private Subnet
-# resource "aws_route_table_association" "private_rt_assoc-vpw" {
-#   subnet_id      = aws_subnet.private-vpw.id
-#   route_table_id = aws_route_table.private_rt-vpw.id
-# }
+resource "aws_route_table_association" "private_rt_assoc-vpw" {
+  subnet_id      = aws_subnet.private-vpw.id
+  route_table_id = aws_route_table.private_rt-vpw.id
+}

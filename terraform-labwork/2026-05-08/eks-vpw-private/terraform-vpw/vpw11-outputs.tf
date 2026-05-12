@@ -49,9 +49,9 @@ output "eks_cluster_certificate_authority_data" {
 # Output the logical name of the private node group
 # Useful for autoscaler configs, dashboards, tagging
 # ------------------------------------------------------------------------------
-output "vpw_node_group_name" {
-  value       = aws_eks_node_group.vpw_nodes.node_group_name
-  description = "Name of the EKS public node group"
+output "private_node_group_name" {
+  value       = aws_eks_node_group.private_nodes.node_group_name
+  description = "Name of the EKS private node group"
 }
 
 # ------------------------------------------------------------------------------
