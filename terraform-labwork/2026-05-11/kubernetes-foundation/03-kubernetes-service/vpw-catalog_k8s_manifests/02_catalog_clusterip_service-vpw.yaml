@@ -9,7 +9,7 @@ spec:
   selector:
     app.kubernetes.io/name: catalog-vpw
   ports:
-    - name: http
+    - name: http-vpw
       port: 8080
       targetPort: 8080
       protocol: TCP

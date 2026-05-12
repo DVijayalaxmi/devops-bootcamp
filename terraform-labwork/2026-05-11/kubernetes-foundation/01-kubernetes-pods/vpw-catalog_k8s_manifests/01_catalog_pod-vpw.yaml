@@ -21,5 +21,6 @@ spec:
           memory: "256Mi"
       readinessProbe:
         httpGet:
-          path: /health
+          #path: /health
+          path: /topology
           port: 8080
