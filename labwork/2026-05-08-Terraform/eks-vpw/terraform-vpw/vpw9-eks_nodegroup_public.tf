@@ -56,7 +56,7 @@ resource "aws_eks_node_group" "vpw_nodes" {
   # Tags for the node group and associated EC2 instances
   tags = merge(var.tags, {
     # Standard EC2 name tag
-    Name = "${local.name}-private-ng"
+    Name = "${local.name}-public-ng"
 
     # Logical environment (e.g., dev, prod)
     Environment = var.environment_name

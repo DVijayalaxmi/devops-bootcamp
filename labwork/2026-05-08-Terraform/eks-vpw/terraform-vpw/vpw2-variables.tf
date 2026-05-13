@@ -20,7 +20,7 @@ variable "business_division" {
 variable "cluster_name" {
   description = "Name of the EKS cluster. Also used as a prefix in names of related resources."
   type        = string
-  default     = "eksvpw"
+  default     = "eks"
 }
 
 # Kubernetes version for the EKS control plane

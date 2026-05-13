@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: catalog-mysql-vpw
+  labels:
+    app.kubernetes.io/name: catalog-vpw
+    app.kubernetes.io/instance: catalog-vpw
+    app.kubernetes.io/component: mysql-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw
+spec:
+  replicas: 1
+  serviceName: catalog-mysql-vpw
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: catalog-vpw
+      app.kubernetes.io/instance: catalog-vpw
+      app.kubernetes.io/component: mysql-vpw
+      app.kubernetes.io/owner: retail-store-sample-vpw
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: catalog-vpw
+        app.kubernetes.io/instance: catalog-vpw
+        app.kubernetes.io/component: mysql-vpw
+        app.kubernetes.io/owner: retail-store-sample-vpw
+    spec:
+      containers:
+        - name: mysql-vpw
+          image: "public.ecr.aws/docker/library/mysql:8.0"
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: my-secret-pw
+            - name: MYSQL_DATABASE
+              value: catalogdb-vpw
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: catalog-db-vpw
+                  key: RETAIL_CATALOG_PERSISTENCE_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: catalog-db-vpw
+                  key: RETAIL_CATALOG_PERSISTENCE_PASSWORD
+          ports:
+            - name: mysql-vpw
+              containerPort: 3306
+              protocol: TCP
+          volumeMounts:
+            - name: data-vpw
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: data-vpw
+          emptyDir: {}

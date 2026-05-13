@@ -36,15 +36,15 @@ resource "aws_route_table_association" "main-public_rt_assoc-vpw" {
   route_table_id = data.aws_route_table.public_rt-vpw.id
 }
 
-resource "aws_eip" "nat-ip" {
-  tags = merge(var.tags, { Name = "${var.environment_name}-nat-eip-vpw" })
-}
+# resource "aws_eip" "nat-ip" {
+#   tags = merge(var.tags, { Name = "${var.environment_name}-nat-eip-vpw" })
+# }
 
-resource "aws_nat_gateway" "nat-vpw" {
-  allocation_id = aws_eip.nat-ip.id
-  subnet_id     = aws_subnet.main-public-vpw.id
-  tags = merge(var.tags, { Name = "${var.environment_name}-nat-vpw" })
-}
+# resource "aws_nat_gateway" "nat-vpw" {
+#   allocation_id = aws_eip.nat-ip.id
+#   subnet_id     = aws_subnet.main-public-vpw.id
+#   tags = merge(var.tags, { Name = "${var.environment_name}-nat-vpw" })
+# }
 
 # Resource-5: Private Route Table
 # resource "aws_route_table" "private_rt-vpw" {
