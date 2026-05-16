@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: catalog-mysql-vpw
+  labels:
+    app.kubernetes.io/name: catalog-vpw
+    app.kubernetes.io/instance: catalog-vpw
+    app.kubernetes.io/component: mysql-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw
+spec:
+  replicas: 1
+  serviceName: catalog-mysql-vpw
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: catalog-vpw
+      app.kubernetes.io/instance: catalog-vpw
+      app.kubernetes.io/component: mysql-vpw
+      app.kubernetes.io/owner: retail-store-sample-vpw
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: catalog-vpw
+        app.kubernetes.io/instance: catalog-vpw
+        app.kubernetes.io/component: mysql-vpw
+        app.kubernetes.io/owner: retail-store-sample-vpw
+    spec:
+      serviceAccount: catalog-mysql-sa-vpw # Service Account    
+      containers:
+        - name: mysql-vpw
+          image: "public.ecr.aws/docker/library/mysql:8.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: mysql-vpw
+              containerPort: 3306
+              protocol: TCP          
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: my-secret-pw
+            - name: MYSQL_DATABASE
+              value: catalogdb-vpw
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              export MYSQL_USER=$(cat /mnt/secrets-store-vpw/MYSQL_USER);
+              export MYSQL_PASSWORD=$(cat /mnt/secrets-store-vpw/MYSQL_PASSWORD);
+              echo "Loaded secrets from AWS Secrets Manager. Starting MySQL with user=$MYSQL_USER";
+              exec docker-entrypoint.sh mysqld          
+          volumeMounts:
+            - name: data-ebs-vpw
+              mountPath: /var/lib/mysql-vpw
+            - name: aws-secrets-vpw
+              mountPath: /mnt/secrets-store-vpw
+              readOnly: true
+      volumes:
+        # - name: data-vpw
+        #   emptyDir: {}
+        - name: aws-secrets-vpw
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "catalog-db-secrets-vpw"
+# Added for provisioning EBS Volumes              
+  volumeClaimTemplates:
+    - metadata:
+        name: data-ebs-vpw
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: ebs-sc-vpw         
