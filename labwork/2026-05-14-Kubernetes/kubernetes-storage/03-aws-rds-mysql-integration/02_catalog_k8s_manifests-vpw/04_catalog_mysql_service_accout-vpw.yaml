@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: catalog-mysql-sa-vpw
+  labels:
+    app.kubernetes.io/name: catalog-vpw
+    app.kubernetes.io/instance: catalog-vpw
+    app.kubernetes.io/component: service-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw

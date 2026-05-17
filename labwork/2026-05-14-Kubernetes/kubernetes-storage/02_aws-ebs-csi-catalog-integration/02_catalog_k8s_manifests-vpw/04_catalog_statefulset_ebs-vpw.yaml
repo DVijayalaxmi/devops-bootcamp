@@ -47,19 +47,19 @@ spec:
               exec docker-entrypoint.sh mysqld          
           volumeMounts:
             - name: data-ebs-vpw
-              mountPath: /var/lib/mysql-vpw
+              mountPath: /var/lib/mysql
             - name: aws-secrets-vpw
               mountPath: /mnt/secrets-store-vpw
-              readOnly: true
+              readOnly: true              
       volumes:
-        # - name: data-vpw
-        #   emptyDir: {}
+        #- name: data
+        #  emptyDir: {}
         - name: aws-secrets-vpw
           csi:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: "catalog-db-secrets-vpw"
+              secretProviderClass: "catalog-db-secrets-vpw"          
 # Added for provisioning EBS Volumes              
   volumeClaimTemplates:
     - metadata:
@@ -69,4 +69,4 @@ spec:
         resources:
           requests:
             storage: 10Gi
-        storageClassName: ebs-sc-vpw         
+        storageClassName: ebs-sc-vpw
