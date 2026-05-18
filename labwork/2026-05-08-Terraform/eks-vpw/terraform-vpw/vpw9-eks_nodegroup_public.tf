@@ -50,7 +50,7 @@ resource "aws_eks_node_group" "vpw_nodes" {
   # Apply labels to each EC2 instance for easier scheduling and management in Kubernetes
   labels = {
     "env"  = var.environment_name
-    "team" = var.business_division
+  #  "team" = var.business_division
   }
 
   # Tags for the node group and associated EC2 instances

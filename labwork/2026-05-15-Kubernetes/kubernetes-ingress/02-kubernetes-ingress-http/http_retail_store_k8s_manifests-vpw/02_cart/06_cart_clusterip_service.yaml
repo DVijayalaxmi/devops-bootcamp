@@ -1,0 +1,24 @@
+# Source: retail-store-sample-cart-chart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: carts-vpw
+  labels:
+    helm.sh/chart: carts-1.2.4
+    app.kubernetes.io/name: carts-vpw
+    app.kubernetes.io/instance: carts-vpw
+    app.kubernetes.io/component: service-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http-vpw
+      protocol: TCP
+      name: http-vpw
+  selector:
+    app.kubernetes.io/name: carts-vpw
+    app.kubernetes.io/instance: carts-vpw
+    app.kubernetes.io/component: service-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw

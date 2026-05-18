@@ -13,7 +13,7 @@ variable "environment_name" {
 variable "business_division" {
   description = "Business Division in the large organization this infrastructure belongs to"
   type        = string
-  default     = "retail"
+  default     = ""
 }
 
 # Name of the EKS cluster (used in names, tags, and references)
