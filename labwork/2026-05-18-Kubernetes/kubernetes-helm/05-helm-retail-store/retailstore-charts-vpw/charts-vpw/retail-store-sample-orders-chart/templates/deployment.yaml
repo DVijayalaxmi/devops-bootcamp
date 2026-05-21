@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ui.fullname" . }}
+  name: {{ include "orders.fullname" . }}
   labels:
-    {{- include "ui.labels" . | nindent 4 }}
+    {{- include "orders.labels" . | nindent 4 }}
 spec:
 {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
@@ -14,18 +14,18 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      {{- include "ui.selectorLabels" . | nindent 6 }}
+      {{- include "orders.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- if or .Values.podAnnotations .Values.metrics.enabled }}
       annotations:
-        {{- include "ui.podAnnotations" . | nindent 8 }}
+        {{- include "orders.podAnnotations" . | nindent 8 }}
         {{- if and .Values.opentelemetry.enabled .Values.opentelemetry.instrumentation }}
         instrumentation.opentelemetry.io/inject-sdk: {{ .Values.opentelemetry.instrumentation }}
         {{- end }}
       {{- end }}
       labels:
-        {{- include "ui.selectorLabels" . | nindent 8 }}
+        {{- include "orders.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.topologySpreadConstraints }}
       topologySpreadConstraints:
@@ -35,29 +35,25 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "ui.serviceAccountName" . }}
+      serviceAccountName: {{ include "orders.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ "ui" }}
+        - name: {{ "orders" }}
           env:
             - name: JAVA_OPTS
               value: -XX:MaxRAMPercentage=75.0 -Djava.security.egd=file:/dev/urandom
-            - name: METADATA_KUBERNETES_POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-            - name: METADATA_KUBERNETES_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
-            - name: METADATA_KUBERNETES_NODE_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: spec.nodeName
           envFrom:
+            {{- if (eq "rabbitmq" .Values.app.messaging.provider) }}
+            - secretRef:
+                name: {{ .Values.app.messaging.rabbitmq.secret.name }}
+            {{- end }}
+            {{- if (eq "postgres" .Values.app.persistence.provider) }}
+            - secretRef:
+                name: {{ .Values.app.persistence.secret.name }}
+            {{- end }}
             - configMapRef:
-                name: {{ include "ui.configMapName" . }}
+                name: {{ include "orders.configMapName" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.Version }}"

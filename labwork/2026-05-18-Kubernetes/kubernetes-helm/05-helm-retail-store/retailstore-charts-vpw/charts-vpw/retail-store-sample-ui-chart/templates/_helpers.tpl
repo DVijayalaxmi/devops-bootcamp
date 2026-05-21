@@ -49,8 +49,8 @@ Selector labels
 {{- define "ui.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "ui.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/component: service
-app.kubernetes.io/owner: retail-store-sample
+app.kubernetes.io/component: service-vpw
+app.kubernetes.io/owner: retail-store-sample-vpw
 {{- end }}
 
 {{/*

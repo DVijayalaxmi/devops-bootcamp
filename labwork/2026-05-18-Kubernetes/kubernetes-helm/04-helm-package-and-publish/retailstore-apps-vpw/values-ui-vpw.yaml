@@ -1,6 +1,6 @@
 # Application Settings
 app:
-  theme: teal # Other options: orange, default, green, teal
+  theme: green # Other options: orange, default, green, teal
 
 
 # Ingress for load balancer
@@ -15,4 +15,13 @@ ingress:
     alb.ingress.kubernetes.io/subnets: <subnet_ids>
   tls: []
   hosts: []
- 
+
+# Release Info
+releaseInfo:
+  enabled: true
+
+# Add Image and Tag
+image:
+  repository: public.ecr.aws/aws-containers/retail-store-sample-ui
+  pullPolicy: IfNotPresent
+  tag: 1.3.0

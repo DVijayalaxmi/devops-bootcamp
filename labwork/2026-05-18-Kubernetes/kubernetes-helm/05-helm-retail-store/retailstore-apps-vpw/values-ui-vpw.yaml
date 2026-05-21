@@ -1,6 +1,11 @@
-# Application Settings
 app:
-  theme: teal # Other options: orange, default, green, teal
+  theme: orange # Other options: orange, default, green, teal
+  endpoints: 
+    catalog: http://catalog-vpw.default.svc.cluster.local:80
+    carts: http://cart-vpw-carts.default.svc.cluster.local:80
+    checkout: http://checkout-vpw.default.svc.cluster.local:80
+    orders: http://orders-vpw.default.svc.cluster.local:80
+
 
 
 # Ingress for load balancer
@@ -8,7 +13,6 @@ ingress:
   enabled: true
   className: alb
   annotations: 
-    # alb.ingress.kubernetes.io/load-balancer-name: vpw-helm-http-ip-mode
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/healthcheck-path: /actuator/health/liveness
