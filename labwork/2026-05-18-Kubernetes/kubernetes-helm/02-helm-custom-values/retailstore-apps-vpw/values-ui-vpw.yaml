@@ -1,0 +1,17 @@
+# Application Settings
+app:
+  theme: teal # Other options: orange, default, green, teal
+
+
+# Ingress for load balancer
+ingress:
+  enabled: true
+  className: alb
+  annotations: 
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health/liveness
+    alb.ingress.kubernetes.io/subnets: subnet-014ab62fcab251723,subnet-0095f18397a2d7804
+  tls: []
+  hosts: []
+ 

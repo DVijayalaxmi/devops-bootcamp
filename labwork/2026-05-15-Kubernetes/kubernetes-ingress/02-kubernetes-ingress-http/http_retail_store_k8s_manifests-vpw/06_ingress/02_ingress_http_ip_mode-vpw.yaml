@@ -18,13 +18,11 @@ metadata:
     alb.ingress.kubernetes.io/success-codes: '200'
     alb.ingress.kubernetes.io/healthy-threshold-count: '2'
     alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'
-    alb.ingress.kubernetes.io/subnets: subnet-014ab62fcab251723,subnet-09156b9f3b59eeb25
+    alb.ingress.kubernetes.io/subnets: <subnet_ids>
 spec:
-  ingressClassName: alb 
+  ingressClassName: alb
   defaultBackend:
     service:
       name: ui-vpw
       port:
-        number: 80                  
-      
-
+        number: 80

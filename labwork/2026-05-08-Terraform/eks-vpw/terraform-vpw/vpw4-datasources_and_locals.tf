@@ -42,6 +42,6 @@ locals {
   eks_cluster_name = "${local.name}-${var.cluster_name}"  # Example: "retail-dev-eksdemo"
 
   azs = data.aws_availability_zones.azs-vpw.names
-  public_subnet_cidr = "10.0.41.0/24"
-  private_subnet_cidr = "10.0.141.0/24"
+  public_subnet_cidr = <CIDR>
+  private_subnet_cidr = <CIDR>
 }
