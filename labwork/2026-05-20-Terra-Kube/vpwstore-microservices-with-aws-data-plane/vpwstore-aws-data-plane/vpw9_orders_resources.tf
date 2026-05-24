@@ -51,7 +51,7 @@ resource "aws_db_instance" "orders_postgres-vpw" {
   db_subnet_group_name    = aws_db_subnet_group.rds_postgresql_subnet_group-vpw.name
   vpc_security_group_ids  = [aws_security_group.rds_postgresql_sg-vpw.id]
 
-  db_name                 = "ordersdb-vpw"
+  db_name                 = "ordersdbvpw"
   username                = "vpwadmin" # Getting from c6_03 and AWS Secret Manager secret "retailstore-db-secret-1"
   password                = "vpwdatabase101" # Getting from c6_03 and AWS Secret Manager secret "retailstore-db-secret-1"
   port                    = 5432

@@ -69,8 +69,8 @@ spec:
               cpu: 100m
               memory: 256Mi
           volumeMounts:
-            - mountPath: /tmp-vpw
-              name: tmp-volume
+            - mountPath: /tmp
+              name: tmp-volume-vpw
             # Mount the CSI secrets volume - this will trigger secret creation              
             - name: aws-secrets-vpw
               mountPath: /mnt/secrets-store

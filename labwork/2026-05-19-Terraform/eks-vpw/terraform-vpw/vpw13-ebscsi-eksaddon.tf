@@ -35,7 +35,7 @@ output "ebs_csi_iam_role_arn" {
 # Output: EBS CSI Pod Identity Association ARN
 output "ebs_csi_pod_identity_association_arn" {
   description = "EBS CSI Driver Pod Identity Association ARN"
-  value       = aws_eks_pod_identity_association.ebs_csi-vpw.arn
+  value       = aws_eks_pod_identity_association.ebs_csi-vpw.association_arn
 }
 
 
@@ -57,7 +57,7 @@ data "aws_eks_addon_version" "ebs_csi_latest-vpw" {
 resource "aws_eks_addon" "ebs_csi-vpw" {
   depends_on = [
     aws_iam_role.ebs_csi_iam_role-vpw,
-    # aws_eks_pod_identity_association.ebs_csi-vpw,
+    aws_eks_pod_identity_association.ebs_csi-vpw,
     aws_eks_addon.podidentity-vpw,
     aws_eks_node_group.vpw_nodes
   ]
@@ -70,6 +70,7 @@ resource "aws_eks_addon" "ebs_csi-vpw" {
   pod_identity_association {
     role_arn = aws_iam_role.ebs_csi_iam_role-vpw.arn
     service_account = "ebs-csi-controller-sa-vpw"
+    #namespace = "kube-system"
   }
 
   resolve_conflicts_on_create = "OVERWRITE"
@@ -102,4 +103,9 @@ output "ebs_csi_addon_arn" {
 output "ebs_csi_addon_id" {
   description = "ID of the installed EBS CSI addon"
   value       = aws_eks_addon.ebs_csi-vpw.id
+}
+
+output "ebs_csi_addon_pod_identity_association_arn" {
+  description = "EBS CSI Driver Pod Identity Association ARN"
+  value       = aws_eks_addon.ebs_csi-vpw.pod_identity_association
 }
