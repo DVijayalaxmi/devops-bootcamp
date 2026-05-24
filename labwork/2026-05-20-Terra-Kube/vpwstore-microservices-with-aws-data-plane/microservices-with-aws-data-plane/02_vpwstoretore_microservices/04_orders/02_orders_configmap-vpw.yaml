@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: orders-vpw
+data:
+  RETAIL_ORDERS_PERSISTENCE_PROVIDER: postgres
+  RETAIL_ORDERS_PERSISTENCE_ENDPOINT: orders-postgres-db-vpw.cxojydmxwly6.us-east-1.rds.amazonaws.com:5432
+  RETAIL_ORDERS_PERSISTENCE_NAME: ordersdb-vpw
+  RETAIL_ORDERS_MESSAGING_PROVIDER: sqs
+  RETAIL_ORDERS_MESSAGING_SQS_TOPIC: vpw-dev-orders-queue
+  #RETAIL_ORDERS_MESSAGING_SQS_TOPIC: https://sqs.us-east-1.amazonaws.com/180789647333/retail-dev-orders-queue
