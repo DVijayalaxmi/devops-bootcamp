@@ -51,18 +51,14 @@ data "aws_secretsmanager_secret_version" "retailstore_secret_value" {
 
 locals {
   retailstore_secret_json = jsondecode(data.aws_secretsmanager_secret_version.retailstore_secret_value.secret_string)
-  
-  #username = local.retailstore_secret_json[0]
-  #password = local.retailstore_secret_json[1]
+
 
 }
 
-/* output "retailstore_secret_json" {
+output "retailstore_secret_json" {
   description = "retailstore_secret_json"
-  #value       = local.retailstore_secret_json
-  value = data.aws_secretsmanager_secret.retailstore_secret-vpw.secret_string
-  #sensitive = true
-} */
+  value       = local.retailstore_secret_json
+}
 
 # --------------------------------------------------------------------
 # ⚠️ TEMPORARY DEBUG OUTPUTS (NOT RECOMMENDED FOR PRODUCTION)
@@ -72,7 +68,7 @@ locals {
 # REMOVE or comment out after validation to avoid exposing credentials.
 # --------------------------------------------------------------------
 
-/* output "debug_retailstore_secret_username" {
+output "debug_retailstore_secret_username" {
   description = "⚠️ For testing only: DB username from Secrets Manager"
   value       = data.aws_secretsmanager_secret_version.retailstore_secret_value.username
   sensitive   = true
@@ -82,7 +78,7 @@ output "debug_retailstore_secret_password" {
   description = "⚠️ For testing only: DB password from Secrets Manager"
   value       = data.aws_secretsmanager_secret_version.retailstore_secret_value.password
   sensitive   = true
-} */
+}
 
 # If you want to actually see the values just once (for validation), you can run:
 # terraform output -json | jq -r '.debug_retailstore_secret_username.value'
@@ -98,8 +94,8 @@ resource "aws_db_instance" "catalog_rds-vpw" {
   instance_class          = "db.t3.micro"
   allocated_storage       = 20
   db_name                 = "catalogdbvpw"
-  username                = "vpwadmin"
-  password                = "vpwdatabase101"
+  username                = local.retailstore_secret_json.username
+  password                = local.retailstore_secret_json.password
   db_subnet_group_name    = aws_db_subnet_group.rds_public-vpw.name
   vpc_security_group_ids  = [aws_security_group.rds_mysql_sg-vpw.id]
   skip_final_snapshot     = true
