@@ -33,7 +33,7 @@ output "public_subnet_id-2" {
 variable "public-subnets" {
   description = "Tags to apply to EKS and related resources"
   type        = list(string)
-  default     = ["subnet-014ab62fcab251723","subnet-0fe1053326b4e263e"]
+  default     = ["<subnet_ids>"]
 }
 
 

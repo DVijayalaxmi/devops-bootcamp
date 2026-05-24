@@ -18,7 +18,7 @@ metadata:
     alb.ingress.kubernetes.io/success-codes: '200'
     alb.ingress.kubernetes.io/healthy-threshold-count: '2'
     alb.ingress.kubernetes.io/unhealthy-threshold-count: '2'
-    alb.ingress.kubernetes.io/subnets: subnet-014ab62fcab251723,subnet-0fe1053326b4e263e
+    alb.ingress.kubernetes.io/subnets: <subnet_ids>
 spec:
   ingressClassName: alb 
   defaultBackend:
