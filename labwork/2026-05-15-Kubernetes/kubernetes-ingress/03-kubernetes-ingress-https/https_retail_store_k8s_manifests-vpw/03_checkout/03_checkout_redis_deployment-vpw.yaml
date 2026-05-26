@@ -1,0 +1,36 @@
+# Source: retail-store-sample-checkout-chart/templates/redis-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout-redis-vpw
+  labels:
+    helm.sh/chart: checkout-1.2.4
+    app.kubernetes.io/name: checkout-vpw
+    app.kubernetes.io/instance: checkout-vpw
+    app.kubernetes.io/component: redis-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: checkout-vpw
+      app.kubernetes.io/instance: checkout-vpw
+      app.kubernetes.io/component: redis-vpw
+      app.kubernetes.io/owner: retail-store-sample-vpw
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: checkout-vpw
+        app.kubernetes.io/instance: checkout-vpw
+        app.kubernetes.io/component: redis-vpw
+        app.kubernetes.io/owner: retail-store-sample-vpw
+    spec:
+      containers:
+        - name: redis-vpw
+          image: "redis:6.0-alpine"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: redis-vpw
+              containerPort: 6379
+              protocol: TCP

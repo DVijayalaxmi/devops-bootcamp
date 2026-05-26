@@ -1,0 +1,24 @@
+# Source: retail-store-sample-checkout-chart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout-vpw
+  labels:
+    helm.sh/chart: checkout-1.2.4
+    app.kubernetes.io/name: checkout-vpw
+    app.kubernetes.io/instance: checkout-vpw
+    app.kubernetes.io/component: service-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http-vpw
+      protocol: TCP
+      name: http-vpw
+  selector:
+    app.kubernetes.io/name: checkout-vpw
+    app.kubernetes.io/instance: checkout-vpw
+    app.kubernetes.io/component: service-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw

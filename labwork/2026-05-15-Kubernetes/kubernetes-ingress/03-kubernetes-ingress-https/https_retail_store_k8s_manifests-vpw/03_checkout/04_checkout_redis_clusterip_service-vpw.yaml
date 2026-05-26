@@ -1,0 +1,24 @@
+# Source: retail-store-sample-checkout-chart/templates/redis-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout-redis-vpw
+  labels:
+    helm.sh/chart: checkout-1.2.4
+    app.kubernetes.io/name: checkout-vpw
+    app.kubernetes.io/instance: checkout-vpw
+    app.kubernetes.io/component: redis-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: redis-vpw
+      protocol: TCP
+      name: redis-vpw
+  selector:
+    app.kubernetes.io/name: checkout-vpw
+    app.kubernetes.io/instance: checkout-vpw
+    app.kubernetes.io/component: redis-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw

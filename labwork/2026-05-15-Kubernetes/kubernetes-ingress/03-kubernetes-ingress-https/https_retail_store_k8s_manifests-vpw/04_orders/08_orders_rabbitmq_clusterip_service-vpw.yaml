@@ -1,0 +1,28 @@
+# Source: retail-store-sample-orders-chart/templates/rabbitmq-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: orders-rabbitmq-vpw
+  labels:
+    helm.sh/chart: orders-1.2.4
+    app.kubernetes.io/name: orders-vpw
+    app.kubernetes.io/instance: orders-vpw
+    app.kubernetes.io/component: rabbitmq-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 5672
+      targetPort: amqp-vpw
+      protocol: TCP
+      name: tcp-amqp-vpw
+    - port: 15672
+      targetPort: http-vpw
+      protocol: TCP
+      name: http-vpw
+  selector:
+    app.kubernetes.io/name: orders-vpw
+    app.kubernetes.io/instance: orders-vpw
+    app.kubernetes.io/component: rabbitmq-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw

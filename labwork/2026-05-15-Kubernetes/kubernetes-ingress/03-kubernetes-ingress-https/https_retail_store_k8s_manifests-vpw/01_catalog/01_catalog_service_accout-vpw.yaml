@@ -1,0 +1,12 @@
+# Source: retail-store-sample-catalog-chart/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: catalog-sa-vpw
+  labels:
+    helm.sh/chart: catalog-1.2.4
+    app.kubernetes.io/name: catalog-vpw
+    app.kubernetes.io/instance: catalog-vpw
+    app.kubernetes.io/component: service-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw
+    app.kubernetes.io/managed-by: Helm
