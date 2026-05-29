@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-mysql-vpw
+spec:
+  type: ExternalName
+  externalName: vpwdb.c42nr5ktk6ag.ap-south-1.rds.amazonaws.com
+  ports:
+    - port: 3306

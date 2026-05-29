@@ -8,7 +8,7 @@ terraform {
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "~> 2.38.0"
+      version = "~> 3.1.0"
     }
     helm = {
       source  = "hashicorp/helm"
@@ -16,7 +16,7 @@ terraform {
     }
     http = {
       source  = "hashicorp/http"
-      version = "~> 3.5.0"
+      version = "~> 3.6.0"
     }
   }
   # Remote Backend

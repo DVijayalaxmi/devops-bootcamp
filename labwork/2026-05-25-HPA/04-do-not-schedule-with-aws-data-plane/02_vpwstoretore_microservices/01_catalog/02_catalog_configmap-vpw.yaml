@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalog-vpw
+data:
+  RETAIL_CATALOG_PERSISTENCE_PROVIDER: mysql
+  RETAIL_CATALOG_PERSISTENCE_ENDPOINT: catalog-mysql-vpw:3306
+  RETAIL_CATALOG_PERSISTENCE_DB_NAME: catalogdbvpw

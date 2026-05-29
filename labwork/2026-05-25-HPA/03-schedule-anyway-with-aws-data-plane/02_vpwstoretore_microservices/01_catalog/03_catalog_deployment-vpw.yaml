@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-vpw
+  labels:
+    app.kubernetes.io/name: catalog-vpw
+    app.kubernetes.io/instance: catalog-vpw
+    app.kubernetes.io/component: service-vpw
+    app.kubernetes.io/owner: retail-store-sample-vpw
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: catalog-vpw
+      app.kubernetes.io/instance: catalog-vpw
+      app.kubernetes.io/component: service-vpw
+      app.kubernetes.io/owner: retail-store-sample-vpw
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
+      labels:
+        app.kubernetes.io/name: catalog-vpw
+        app.kubernetes.io/instance: catalog-vpw
+        app.kubernetes.io/component: service-vpw
+        app.kubernetes.io/owner: retail-store-sample-vpw
+    spec:
+      serviceAccountName: catalog-sa-vpw
+      securityContext:
+        fsGroup: 1000
+      containers:
+        - name: catalog-vpw
+          envFrom:
+            - configMapRef:
+                name: catalog-vpw
+            - secretRef:
+                name: catalog-db-vpw
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "public.ecr.aws/aws-containers/retail-store-sample-catalog:1.3.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http-vpw
+              containerPort: 8080
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          volumeMounts:
+            - mountPath: /tmp
+              name: tmp-volume-vpw
+            # Mount the CSI secrets volume - this will trigger secret creation              
+            - name: aws-secrets-vpw
+              mountPath: /mnt/secrets-store
+              readOnly: true         
+      volumes:
+        - name: tmp-volume-vpw
+          emptyDir:
+            medium: Memory
+        # Add the CSI secrets volume            
+        - name: aws-secrets-vpw
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "catalog-db-secrets-vpw"            
